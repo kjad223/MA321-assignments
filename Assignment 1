@@ -1,0 +1,45 @@
+#Assignment 1: Taylor Series
+#MA321-001
+#Group: 3
+#Function: erf(x)
+
+import math
+pi=math.pi
+e=math.exp(1)
+
+t=float(input("Input maximum allowable error: "))#tolerance
+xi=int(input("Input number of points to be evaluated: "))
+alfalfa=0
+xn=[]
+while alfalfa<xi:
+    x=float(input("Input point at which the function is to be evaluated: "))#points to be evaluated
+    xn.append(x)
+    alfalfa=alfalfa+1
+
+    d=abs((2/(pi**.5))*e**(-x**2))#first derivative of erf(x)***work in progress, pretty sure this needs to be evaluated at different points
+    M=[]
+    M.append(d)
+    n=1
+    E=1
+    while t<E:   #this section from line 24-36 needs to be worked on still(gives low error for numbers with massive error)
+        if n<2:
+            d=abs(-2*x*d)
+        else:
+            #if n%2==0:
+                #xi=0
+            #else:
+                #xi=...need to figure out pattern to this, tends to be zero of n+1 derivative closest to x=0
+            d=abs(-2*(n-2)*M[n-2]-2*x*M[n-1])
+        M.append(d)
+        E=(d/math.factorial(n+1))*abs(x)**(n+1)
+        n=n+1
+
+    print(n-1)
+    j=0
+    erf=0
+    while j<=(n-1):
+        summ=(((-1)**j)*(x**(2*j+1)))/(math.factorial(j)*(2*j+1))
+        erf=summ+erf
+        j=j+1
+    print(erf*(2/(pi**.5)))
+
